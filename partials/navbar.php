@@ -1,3 +1,5 @@
+
+
 <!-- Modal -->
 <div class="modal fade" id="loginmod" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -7,17 +9,17 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="action.php" method="POST">
+        <form action="partials/action.php" method="POST">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="uemail">
             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
+            <input type="password" name="pass" class="form-control" id="exampleInputPassword1">
           </div>
-          
+
           <button type="submit" class="btn btn-primary" name="loginbutton">Submit</button>
         </form>
       </div>
@@ -38,16 +40,12 @@
         <form action="partials/action.php" method="POST">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-            name="uemail"
-            >
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="uemail">
             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
           </div>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Full Name</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" 
-            name="uname"
-            aria-describedby="emailHelp">
+            <input type="text" class="form-control" id="exampleInputEmail1" name="uname" aria-describedby="emailHelp">
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
@@ -93,13 +91,33 @@
 
       </ul>
       <form class="d-flex" role="search">
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#loginmod">
-          login
-        </button>
-        &ensp;
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signupmod">
-          Sign up
-        </button>
+
+        <?php
+        if (isset($_SESSION['loginSuccessfull'])) {
+          echo '
+                <h6>Welcome, ' . $_SESSION['userFullName'] . ' </h6>
+                &ensp;
+                <a type="button" href="partials/logout.php" class="btn btn-danger">
+                logout
+              </a>';
+        } else {
+          echo '
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#loginmod">
+            login
+          </button>
+          &ensp;
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#signupmod">
+            Sign up
+          </button>
+          ';
+        }
+
+        ?>
+
+
+
+
+
       </form>
     </div>
   </div>

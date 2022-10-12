@@ -1,5 +1,17 @@
+<?php session_start(); ?>
 <?php include "partials/header.php"; ?>
+
+<?php
+if (isset($_SESSION['loginSuccessfull'])) {
+    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Message!</strong> login Successful
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>';
+}
+?>
+
 <?php include "partials/navbar.php"; ?>
+
 
 <!-- carosel section -->
 <div class="container">
@@ -45,7 +57,7 @@
 
 
 
-        
+
     </div>
 </div>
 
