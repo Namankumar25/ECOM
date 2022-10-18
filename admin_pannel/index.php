@@ -1,5 +1,7 @@
 <?php
 session_start();
+include "../database/conn.php";
+
 if (!isset($_SESSION['loginSuccessfull']) || $_SESSION['role'] != "admin") {
     header("location:../index.php");
 }
@@ -52,6 +54,64 @@ if (!isset($_SESSION['loginSuccessfull']) || $_SESSION['role'] != "admin") {
             </div>
         </div>
     </div>
+
+
+    <h2 class="mt-4">Order details</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">phone</th>
+                <th scope="col">Address</th>
+                <th scope="col">Product name</th>
+                <th scope="col">Product price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $osql = "SELECT * FROM `orders`";
+            $oresult = mysqli_query($conn, $osql);
+            $i = 1;
+            while ($orow = mysqli_fetch_assoc($oresult)) {
+                $uid = $orow['user_id'];
+                $pid = $orow['product_id'];
+
+                $usql = "SELECT * FROM `users` WHERE `u_id`='$uid'";
+                $uresult = mysqli_query($conn, $usql);
+                $urow = mysqli_fetch_assoc($uresult);
+
+
+                $psql = "SELECT * FROM `products` WHERE `p_id`='$pid'";
+                $presult = mysqli_query($conn, $psql);
+                $prow = mysqli_fetch_assoc($presult);
+
+                echo '
+                    <tr>
+                        <th scope="row">'.$i.'</th>
+                        <td>'.$urow['u_name'].'</td>
+                        <td>'.$urow['u_email'].'</td>
+                        <td>'.$orow['o_phone_number'].'</td>
+                        <td>'.$orow['o_address'].'</td>
+                        <td>'.$prow['p_name'].'</td>
+                        <td>'.$prow['p_price'].'</td>
+                    </tr>
+                    
+                    ';
+                    $i++;
+            }
+
+            ?>
+            
+
+
+
+        </tbody>
+    </table>
+
+
+
 
 </div>
 

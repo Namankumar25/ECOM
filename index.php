@@ -1,10 +1,18 @@
 <?php session_start(); ?>
 <?php include "partials/header.php"; ?>
+<?php include "database/conn.php"; ?>
 
 <?php
 if (isset($_SESSION['loginSuccessfull'])) {
     echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>Message!</strong> login Successful
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>';
+}
+
+if (isset($_GET['productSuccess'])) {
+    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Message!</strong> Product Added Successfully 
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>';
 }
@@ -44,16 +52,28 @@ if (isset($_SESSION['loginSuccessfull'])) {
     <h1>Pick your best !</h1>
     <div class="row container mt-4">
 
+    <?php
+        $uid = $_SESSION['userId'];
 
-        <div class="card mx-2 mt-3 col-lg-3" style="width: 18rem;border:none;">
-            <img src="assets/2.jpeg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Iphone 14</h5>
-                <h6 class="text-bold text-warning">Price - 1.5lakh</h6>
-                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi illo id fuga nesciunt</p>
-                <a href="#" class="btn btn-primary">Order now</a>
-            </div>
-        </div>
+        $psql = "SELECT * FROM `products`";
+        $presult = mysqli_query($conn,$psql);
+        while ($row = mysqli_fetch_assoc($presult)) {
+            echo '
+            <div class="card mx-2 mt-3 col-lg-3" style="width: 18rem;border:none;">
+                <img src="uploads/'.$row['p_picture'].'" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">'.$row['p_name'].'</h5>
+                    <h6 class="text-bold text-warning">Price - Rs '.$row['p_price'].'/-</h6>
+                    <p class="card-text">'.$row['p_desc'].'</p>
+                    <a href="pages/order.php?uid='.$uid.'&&pid='.$row['p_id'].'" class="btn btn-primary">Order now</a>
+                </div>
+            </div>            
+            ';
+        }
+    
+    ?>
+
+
 
 
 

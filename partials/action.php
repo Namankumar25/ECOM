@@ -32,8 +32,24 @@ if (isset($_POST['loginbutton'])) {
         session_start();
         $_SESSION['userFullName'] = $row['u_name'];
         $_SESSION['role'] = $row['u_role'];
+        $_SESSION['userId'] = $row['u_id'];
         $_SESSION['loginSuccessfull'] = true;
         header("location:../index.php");   
+    }
+
+}
+
+if (isset($_POST['OrderNowButton'])) {
+    $uid = $_POST['uid'];
+    $pid = $_POST['pid'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+   
+    $sql = "INSERT INTO `orders` (`o_id`, `user_id`, `product_id`, `o_address`, `o_phone_number`, `o_timestamp`) VALUES (NULL, '$uid', '$pid', '$address', '$phone', current_timestamp());";
+    $result = mysqli_query($conn,$sql);
+   
+    if ($result) {
+      header("location:../index.php?productSuccess");
     }
 
 }
